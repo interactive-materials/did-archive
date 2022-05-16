@@ -255,9 +255,7 @@ var pushHistory = () => {
   filterList.forEach((f) => {
     filter += `_${f}`;
   });
-  var ref = `?mode=${itemActive ? "" : "a"}&item=${
-    activeItem === undefined ? "" : activeItem
-  }&gallery=${activeGallery}&filter=${filter}`;
+  var ref = `?mode=${itemActive ? "" : "a"}&item=${activeItem === undefined ? "" : activeItem}&gallery=${activeGallery}&filter=${filter}`;
   history.pushState(null, null, ref);
 };
 
@@ -266,9 +264,7 @@ var replaceHistory = () => {
   filterList.forEach((f) => {
     filter += `_${f}`;
   });
-  var ref = `?mode=${itemActive ? "" : "a"}&item=${
-    activeItem === undefined ? "" : activeItem
-  }&gallery=${activeGallery}&filter=${filter}`;
+  var ref = `?mode=${itemActive ? "" : "a"}&item=${activeItem === undefined ? "" : activeItem}&gallery=${activeGallery}&filter=${filter}`;
   history.replaceState(null, null, ref);
 };
 

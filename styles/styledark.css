@@ -275,12 +275,13 @@
     right: min(5em, 5vw);
     width: var(--center-button-size);
     height: var(--center-button-size);
-    /*   border-radius: calc(var(--center-button-size) * 0.5); */
+    border-radius: 10%;
     padding: calc(var(--center-button-size) * 0.25);
     box-sizing: border-box;
     /* background: var(--dark-color); */
-    background: #000000;
-    border: #606060 1px solid;
+    background: #00000022;
+    backdrop-filter: blur(2.5px);
+    border: #FFFFFFAA 1px solid;
     /* box-shadow: 0 0 10px rgba(255, 255, 255, 0.4); */
     z-index: 999;
     cursor: pointer;
@@ -1241,6 +1242,7 @@
     float: left;
     clear: both;
     font-size: 1em;
+    line-height: 1.0;
     margin-bottom: 1em;
     width: 100%;
     cursor: pointer;
@@ -1714,9 +1716,9 @@
     }
   
     #center-div {
-      right: 0;
-      bottom: 10vh;
-      border-radius: 0 0 0 0;
+      right: 5vw;
+      bottom: 10vw;
+      border-radius: 10%;
       width: 4.5em;
       height: 4.5em;
       padding: 1.2em;
@@ -1724,12 +1726,12 @@
   
     #center-div:hover {
       /* box-shadow: 0 0 10px rgba(255, 255, 255, 0.7); */
-      border-radius: 0 0 0 0;
+      /* border-radius: 0 0 0 0; */
       padding: 1.2em;
     }
   
     #center-div:active {
-      border-radius: 0 0 0 0;
+      /* border-radius: 0 0 0 0; */
       padding: 1.4em;
     }
   
