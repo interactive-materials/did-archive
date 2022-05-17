@@ -90,6 +90,34 @@ var loadNewItem = (_type, _index, _new) => {
     var itemHolder = document.querySelector(".item-holder");
     itemHolder.innerHTML = "";
     document.querySelector("#item-div").scrollTop = 0;
+
+    // if (previousPage.length > 0) {
+    //   var paramsArr = previousPage.split("?").at(-1).split("&");
+    //   var obj = {};
+    //   var params = paramsArr.forEach(p => {
+    //     var pair = p.split("=");
+    //     if (pair.length === 2) {
+    //       obj[pair[0]] = pair[1];
+    //     }
+    //   });
+    //   if (obj.mode !== "a") {
+    //     var backButton = document.createElement("div");
+    //     backButton.classList.add("item-back-button");
+    //     backButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 61 31"><polyline style="stroke:#f0f0f0;fill:none;stroke-linecap:round;stroke-linejoin:round;" points="60.5 15.5 .5 15.5 15.5 30.5 .5 15.5 15.5 .5"/></svg>`;
+    //     backButton.addEventListener("click", (e) => {
+    //       history.back();
+    //     });
+    //     itemHolder.append(backButton);
+    //   }
+    // }
+
+    var backButton = document.createElement("div");
+    backButton.classList.add("item-back-button");
+    backButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 61 31"><polyline style="stroke:#f0f0f0;fill:none;stroke-linecap:round;stroke-linejoin:round;" points="60.5 15.5 .5 15.5 15.5 30.5 .5 15.5 15.5 .5"/></svg>`;
+    backButton.addEventListener("click", (e) => {
+      history.back();
+    });
+    itemHolder.append(backButton);
     itemHolder.append(...generateItem(_type, _index).children);
 
     if (_new === undefined) {

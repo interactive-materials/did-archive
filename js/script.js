@@ -250,12 +250,14 @@ var loadURL = () => {
   }
 };
 
+var previousPage = "";
 var pushHistory = () => {
   var filter = "";
   filterList.forEach((f) => {
     filter += `_${f}`;
   });
   var ref = `?mode=${itemActive ? "" : "a"}&item=${activeItem === undefined ? "" : activeItem}&gallery=${activeGallery}&filter=${filter}`;
+  previousPage = ref;
   history.pushState(null, null, ref);
 };
 

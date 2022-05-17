@@ -425,6 +425,27 @@
     background: #181818;
     z-index: 999;
   }
+
+  .item-holder .item-back-button {
+    position: relative;
+    float: left;
+    clear: both;
+    width: 3em;
+    margin-bottom: 2em;
+    cursor: pointer;
+    margin-left: 0;
+    transition: all 100ms ease-in-out;
+    z-index: 99;
+  }
+
+  .item-holder .item-back-button:hover {
+    margin-left: -0.5em;
+  }
+
+  .item-holder .item-back-button svg {
+    position: relative;
+    width: 100%;
+  }
   
   .project-description,
   .project-designers {
@@ -767,7 +788,7 @@
   }
   
   #filter-btn.filtered {
-    background: #000000;
+    /* background: #000000; */
     /* color: black; */
   }
   
@@ -780,12 +801,11 @@
   
   #gallery-filterbar {
     position: relative;
-    /*   top: var(--gallery-nav-height); */
     clear: both;
     float: left;
     max-height: 0vh;
     width: 100%;
-    /*   background-color: rgba(97, 106, 107); */
+    background: #00000000;
     overflow-x: hidden;
     overflow-y: scroll;
     z-index: 98;
@@ -793,10 +813,8 @@
     margin-top: -1em;
     padding-left: var(--item-holder-padding-left);
     padding-right: var(--item-holder-padding-left);
-    /*   border-radius: 0 0 1.2em 1.2em; */
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
-  
     border-bottom: none;
   }
   
