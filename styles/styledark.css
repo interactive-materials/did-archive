@@ -786,7 +786,6 @@
     max-height: 0vh;
     width: 100%;
     /*   background-color: rgba(97, 106, 107); */
-    background-color: none;
     overflow-x: hidden;
     overflow-y: scroll;
     z-index: 98;
