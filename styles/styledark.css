@@ -354,7 +354,8 @@
     overflow: visible;
     user-select: none;
     z-index: 99;
-    background: #181818;
+    background: #18181866;
+    backdrop-filter: blur(2.5px);
   }
   
   #gallery-navbar a,
