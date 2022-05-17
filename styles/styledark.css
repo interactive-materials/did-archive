@@ -1720,6 +1720,14 @@
     #item-div.active {
       margin-left: 0;
     }
+
+    #item-div .item-holder {
+      padding-top: 1.5em;
+    }
+
+    .item-holder .item-back-button {
+      margin-bottom: 1em;
+    }
   
     a.card {
       width: 100%;
