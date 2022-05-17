@@ -407,7 +407,8 @@
     padding: 0.5rem;
     background: var(--card-frame-background);
     border: var(--border-type-C);
-    /*   border-radius: 0.5em; */
+    border: 1px solid #45454500;
+    /* border-radius: 0.5em; */
   }
   
   .item-holder {
@@ -901,7 +902,9 @@
   
   a.card:hover .card-frame {
     /*   background: #DADADA; */
-    box-shadow: var(--card-hover-shadow);
+    /* box-shadow: var(--card-hover-shadow); */
+    border-radius: 0.5em;
+    border: 1px solid #454545;
   }
   
   a.card.hidden {
@@ -914,6 +917,7 @@
   
   .card-frame h2 {
     position: relative;
+    text-transform: capitalize;
     float: left;
     display: inline-block;
     width: 55%;
@@ -1124,6 +1128,7 @@
     float: left;
     clear: both;
     font-size: 3rem;
+    text-transform: capitalize;
   }
   
   .platform-leaders {
@@ -1252,12 +1257,15 @@
     background: var(--card-frame-background);
     border: var(--border-type-C);
     /*   border-radius: 0.3rem; */
+    border: 1px solid #45454500;
     display: flex;
     align-items: stretch;
   }
   
   .item-card:hover {
-    box-shadow: var(--card-hover-shadow);
+    /* box-shadow: var(--card-hover-shadow); */
+    border-radius: 0.5em;
+    border: 1px solid #454545;
   }
   
   .item-card div {
@@ -1282,6 +1290,7 @@
     clear: both;
     font-size: 0.9em;
     font-weight: 400;
+    margin-bottom: 0.3em;
   }
   
   .item-card div span.project-name {
@@ -1303,6 +1312,7 @@
     width: 100%;
     padding: 0;
     margin: 0;
+    margin-top: 0.3em;
     /*   bottom: 0; */
   }
   
@@ -1339,6 +1349,7 @@
   
   .project-platform {
     margin-top: 1em;
+    text-transform: capitalize;
   }
   
   .project-designers {
