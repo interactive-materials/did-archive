@@ -15,6 +15,14 @@ var dataLoadedSequence = () => {
     revealGallery();
   });
 
+  var thesisLink = document.createElement("span");
+  thesisLink.innerHTML =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31 31"><polyline points="0.5 15.5 30.5 15.5 15.5 0.5 30.5 15.5 15.5 30.5" style="fill: none;stroke: #F0F0F0;stroke-linecap:round;stroke-linejoin: round"/></svg> thesis gallery';
+    thesisLink.addEventListener("click", (e) => {
+    loadNewGallery("thesis");
+    revealGallery();
+  });
+
   var designersLink = document.createElement("span");
   designersLink.innerHTML =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31 31"><polyline points="0.5 15.5 30.5 15.5 15.5 0.5 30.5 15.5 15.5 30.5" style="fill: none;stroke: #F0F0F0;stroke-linecap:round;stroke-linejoin: round"/></svg> designers gallery';
@@ -34,7 +42,7 @@ var dataLoadedSequence = () => {
   document.querySelector("#welcome-gallery-links").innerHTML = "";
   document
     .querySelector("#welcome-gallery-links")
-    .append(platformsLink, designersLink, leadersLink);
+    .append(platformsLink, thesisLink, designersLink, leadersLink);
 
   var years = [];
   DATA.projects.forEach((p) => {
