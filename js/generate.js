@@ -113,6 +113,48 @@ var generatePlatformsFilters = () => {
   return obj;
 };
 
+var generateThesisFilters = () => {
+  var years = [];
+  var specializations = [];
+  // var tags = [];
+  // var partners = [];
+  DATA.thesis.forEach(p => {
+    var year = p.year;
+    if (years.findIndex(y => y === year) < 0) {
+      years.push(year);
+    }
+    if (p.specialization) {
+      p.specialization.forEach(s => {
+        if (specializations.findIndex(sp => sp === s) < 0) {
+          specializations.push(s);
+        }
+      });
+    }
+  });
+
+  years.sort((a, b) => +b - +a);
+  specializations.sort();
+
+  var obj = {
+    Year: {
+      display: years.map(y => y),
+      id: years.map(y => `year-${y}`),
+      tag: "year",
+      and: false,
+      exclusive: false,
+    },
+    Specialization: {
+      display: specializations.map(s => s),
+      id: specializations.map(s => `spec-${s.replace(/[ &]/g, "")}`),
+      tag: "spec",
+      and: false,
+      exclusive: false,
+    }
+  };
+
+  return obj;
+};
+
 var generateDesignersFilters = () => {
   var years = [];
   var specializations = [];
@@ -153,6 +195,32 @@ var loadProjectsGallery = () => {
 
   projGallery.forEach((p, index) => {
     var card = generateGalleryCardProject(p, index);
+    holder.append(card);
+  });
+
+  return holder;
+};
+
+var loadThesisGallery = () => {
+  var holder = document.createElement("div");
+  holder.classList.add("thesis-gallery-holder");
+  holder.classList.add("gallery-holder");
+
+  var thesisGallery = DATA.thesis.map(p => p);
+
+  var prevYear = 0;
+  thesisGallery.forEach((p, index) => {
+    var year = +p.year;
+    if (year !== prevYear) {
+      prevYear = year;
+      var yearCard = document.createElement("a");
+      yearCard.classList.add("card");
+      yearCard.classList.add("separator");
+      yearCard.classList.add(`year-${year}`);
+      yearCard.innerHTML = year;
+      holder.append(yearCard);
+    }
+    var card = generateGalleryCardThesis(p, index);
     holder.append(card);
   });
 
@@ -291,6 +359,61 @@ var generateGalleryCardProject = (p, index) => {
   }
 
   singleProj.append(img, plat, name, designers);
+  card.append(singleProj);
+  return card;
+};
+
+var generateGalleryCardThesis = (p, index) => {
+  var card = document.createElement("a");
+  card.id = `thesis-${index}`;
+  card.classList.add(`thesis-card`);
+  card.classList.add(`card`);
+
+  var year = DATA.thesis[index].year;
+  card.classList.add(`year-${year}`);
+
+  if (p.specialization) {
+    var spec = p.specialization.map(s => s.replace(/[ &]/g, ""));
+    spec.forEach(s => {
+      card.classList.add(`spec-${s}`);
+    });
+  }
+
+  if (p.tags) {
+    var tags = p.tags.map(t => t.replace(/[ &]/g, ""));
+    tags.forEach(t => {
+      card.classList.add(`tag-${t}`);
+    });
+  }
+
+  card.addEventListener("click", e => {
+    var typeIndex = card.id.split("-");
+    loadNewItem(typeIndex[0], +typeIndex[1]);
+  });
+
+  var singleProj = document.createElement("div");
+  singleProj.classList.add("card-frame");
+
+  var img = document.createElement("div");
+  img.classList.add("card-image");
+  img.style.backgroundImage = `url("assets/thesis/${p.imageNames[0]}")`;
+  
+  var name = document.createElement("h2");
+  name.innerHTML = p.name;
+
+  var designers = document.createElement("ul");
+  p.designers.forEach(d => {
+    var list = document.createElement("li");
+    list.innerHTML = DATA.designers[d.index].name;
+    designers.append(list);
+  });
+
+  var specialization = document.createElement("h3");
+  p.specialization.forEach(s => {
+    specialization.innerHTML += s;
+  });
+
+  singleProj.append(img, specialization, name, designers);
   card.append(singleProj);
   return card;
 };
@@ -574,7 +697,7 @@ var generateItemProject = (
   if (_description === undefined) {
     description.innerHTML = "";
   } else {
-    description.innerHTML = _description;
+    description.innerHTML = marked.parse(_description);
   }
   descriptionDiv.append(description);
 
@@ -597,6 +720,153 @@ var generateItemProject = (
     platformDiv,
     designersDiv,
     descriptionDiv,
+    videoDiv
+  );
+
+  if (_imgSrcArr.length > 1) {
+    holder.append(extraImageHolder);
+  }
+
+  return holder;
+};
+
+var generateItemThesis = (
+  _year,
+  _imgSrcArr,
+  _captions,
+  _title,
+  _specialization,
+  _description,
+  _designers,
+  _leaders,
+  _video
+) => {
+  var holder = document.createElement("div");
+  holder.classList.add("item-holder");
+  holder.classList.add("item-thesis");
+
+  // var imgDiv = generateImageGallery(_imgSrcArr);
+
+  var heroImageHolder = document.createElement("div");
+  heroImageHolder.classList.add("image-gallery-frame");
+  var heroImg = document.createElement("img");
+  heroImg.classList.add("active");
+  heroImg.src = `assets/thesis/${_imgSrcArr[0]}`;
+  heroImageHolder.append(heroImg);
+
+  var extraImageHolder = document.createElement("div");
+  extraImageHolder.classList.add("extra-images-holder");
+  _imgSrcArr.forEach((image, i) => {
+    if (i > 0) {
+      var imgHolder = document.createElement("div");
+      imgHolder.classList.add("image-gallery-frame");
+      var img = document.createElement("img");
+      img.classList.add("active");
+      img.src = `assets/thesis/${image}`;
+      imgHolder.append(img);
+
+      if (i < _captions.length) {
+        var para = document.createElement("p");
+        para.classList.add("extra-image-caption");
+        para.innerHTML = _captions[i];
+        imgHolder.append(para);
+      }
+
+      extraImageHolder.append(imgHolder);
+    }
+  })
+
+  var titleDiv = document.createElement("div");
+  titleDiv.classList.add("project-title");
+  var itemType = document.createElement("p");
+  itemType.classList.add("item-type");
+  itemType.innerHTML = `Thesis&mdash;${_specialization} (${_year})`;
+  var title = document.createElement("h1");
+  title.innerHTML = _title;
+  titleDiv.append(itemType, title);
+  
+  var designersDiv = document.createElement("div");
+  designersDiv.classList.add("project-designers");
+
+  var designersArr = [];
+
+  _designers.forEach(d => {
+    var obj = {
+      name: DATA.designers[d.index].name,
+      rID: d.index
+    };
+    designersArr.push(obj);
+  });
+
+  var designersList = document.createElement("ul");
+  designersArr.forEach(d => {
+    var designer = document.createElement("li");
+    if (d.rID != -1) {
+      var linkedLi = document.createElement("a");
+      linkedLi.classList.add("clickable-item");
+      linkedLi.innerHTML = d.name;
+      linkedLi.id = `designer-${d.rID}`;
+      linkedLi.addEventListener("click", e => {
+        var typeIndex = linkedLi.id.split("-");
+        loadNewItem(typeIndex[0], typeIndex[1]);
+      });
+      designer.append(linkedLi);
+    } else {
+      designer.innerHTML = d.name;
+    }
+    designersList.appendChild(designer);
+  });
+
+  designersDiv.append(designersList);
+
+  var leadersDiv = document.createElement("div");
+  leadersDiv.classList.add("thesis-supervisor");
+  var supervised = document.createElement("span");
+  supervised.innerHTML = "Supervised by:"
+  supervised.classList.add("supervised");
+  leadersDiv.append(supervised);
+
+  _leaders.forEach(l => {
+    var leader = document.createElement("span");
+    leader.classList.add("clickable-item");
+    leader.id = `leader-${l.index}`;
+    leader.addEventListener("click", e => {
+      var typeIndex = leader.id.split("-");
+      loadNewItem(typeIndex[0], typeIndex[1]);
+    });
+    leader.innerHTML = DATA.leaders[l.index].name;
+    leadersDiv.append(leader);
+  });
+
+  var descriptionDiv = document.createElement("div");
+  descriptionDiv.classList.add("project-description");
+  var description = document.createElement("p");
+  if (_description === undefined) {
+    description.innerHTML = "";
+  } else {
+    description.innerHTML = marked.parse(_description);
+  }
+  descriptionDiv.append(description);
+
+  var videoDiv = document.createElement("div");
+  videoDiv.classList.add("project-video");
+  var video = document.createElement("div");
+  if (_video.type === "youtube") {
+    video.innerHTML = `<iframe width="100%" height="360" src="https://www.youtube.com/embed/${_video.id}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+  } else if (_video.type === "vimeo") {
+    video.innerHTML = `<iframe src="https://player.vimeo.com/video/${_video.id}" width="100%" height="360" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+  } else {
+    video.innerHTML = "";
+  }
+
+  videoDiv.append(video);
+
+  holder.append(
+    heroImageHolder,
+    titleDiv,
+    designersDiv,
+    descriptionDiv,
+    leadersDiv,
     videoDiv
   );
 
@@ -675,7 +945,7 @@ var generateItemProject = (
 
 //Generates 1 designer item (left side)
 
-var generateItemDesigner = (_portrait, _name, _grad, _link, _projects) => {
+var generateItemDesigner = (_portrait, _name, _grad, _link, _projects, _thesis) => {
   var holder = document.createElement("div");
   holder.classList.add("item-holder");
   holder.classList.add("item-designer");
@@ -730,6 +1000,37 @@ var generateItemDesigner = (_portrait, _name, _grad, _link, _projects) => {
   
   topBlock.append(portraitDiv, nameBlock);
 
+  var thesisDiv = document.createElement("div");
+  thesisDiv.classList.add("designer-thesis");
+  thesisDiv.classList.add("item-card-list");
+  
+  if (Array.isArray(_thesis)) {
+    var thesisLabel = document.createElement("h3");
+    thesisLabel.innerHTML = "Thesis";
+    thesisDiv.append(thesisLabel);
+    _thesis.forEach(p => {
+      var proj = document.createElement("div");
+      proj.id = `thesis-${p.index}`;
+
+      proj.addEventListener("click", e => {
+        var typeIndex = proj.id.split("-");
+        loadNewItem(typeIndex[0], typeIndex[1]);
+      });
+
+      proj.classList.add("item-proj-card");
+      proj.classList.add("item-card");
+      var projFrame = document.createElement("div");
+      projFrame.classList.add("proj-img");
+      projFrame.classList.add("thumbnail");
+      projFrame.style.backgroundImage = `url("assets/thesis/${DATA.thesis[p.index].imageNames[0]}")`;
+      var projName = document.createElement("div");
+      var pro = DATA.thesis[p.index];
+      projName.innerHTML = `<span class="project-name">${pro.name}</span>`;
+      proj.append(projFrame, projName);
+      thesisDiv.append(proj);
+    });
+  }
+
   var projDiv = document.createElement("div");
   projDiv.classList.add("designer-proj");
   projDiv.classList.add("item-card-list");
@@ -759,7 +1060,7 @@ var generateItemDesigner = (_portrait, _name, _grad, _link, _projects) => {
     projDiv.append(proj);
   });
 
-  holder.append(topBlock, projDiv);
+  holder.append(topBlock, thesisDiv, projDiv);
   return holder;
 };
 
@@ -849,7 +1150,7 @@ var generateItemPlatform = (
   var descrDiv = document.createElement("div");
   descrDiv.classList.add("platform-descr");
   var descr = document.createElement("p");
-  descr.innerHTML = _description;
+  descr.innerHTML = marked.parse(_description);
   descrDiv.append(descr);
 
   var projDiv = document.createElement("div");
@@ -910,7 +1211,8 @@ var generateItemLeader = (
   _link,
   _email,
   _bio,
-  _platforms
+  _platforms,
+  _thesis
 ) => {
   var holder = document.createElement("div");
   holder.classList.add("item-holder");
@@ -1034,6 +1336,39 @@ var generateItemLeader = (
     platformsDiv.append(platform);
   });
 
-  holder.append(topBlock, bioDiv, platformsDiv);
+  var thesisDiv = document.createElement("div");
+  thesisDiv.classList.add("leader-thesis");
+  thesisDiv.classList.add("item-card-list");
+
+  if (Array.isArray(_thesis)) {
+    var thesisLabel = document.createElement("h3");
+    thesisLabel.innerHTML = "Thesis Supervision";
+    thesisDiv.append(thesisLabel);
+    _thesis.forEach(p => {
+      var proj = document.createElement("div");
+      proj.id = `thesis-${p.index}`;
+
+      proj.addEventListener("click", e => {
+        var typeIndex = proj.id.split("-");
+        loadNewItem(typeIndex[0], typeIndex[1]);
+      });
+
+      proj.classList.add("item-proj-card");
+      proj.classList.add("item-card");
+      
+      var projName = document.createElement("div");
+      var pro = DATA.thesis[p.index];
+
+      var designersString = pro.designers
+        .map(d => DATA.designers[d.index].name)
+        .join(", ");
+
+      projName.innerHTML = `<span class="project-year">${pro.year}</span><span class="project-name">${pro.name}</span><span class="designers-name">${designersString}</span>`;
+      proj.append(projName);
+      thesisDiv.append(proj);
+    });
+  }
+
+  holder.append(topBlock, bioDiv, platformsDiv, thesisDiv);
   return holder;
 };

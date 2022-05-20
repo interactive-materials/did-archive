@@ -455,6 +455,18 @@
   .project-designers ul {
     list-style-type: none;
   }
+
+  .thesis-supervisor {
+    margin-bottom: 4em;
+  }
+
+  .thesis-supervisor span {
+    font-size: 0.8em;
+  }
+
+  .thesis-supervisor .supervised {
+    margin-right: 0.5em;
+  }
   
   .leader-bio {
     margin: var(--item-description);
@@ -993,6 +1005,10 @@
     /*   font-size: 1.7em; */
     line-height: 1em;
   }
+
+  .thesis-card h3 {
+    
+  }
   
   .card-frame .tags {
     position: absolute;
@@ -1244,6 +1260,8 @@
   
   .platform-projs h3,
   .designer-proj h3,
+  .designer-thesis h3,
+  .leader-thesis h3,
   .leader-platforms h3 {
     font-size: 1.25em;
   }
@@ -1347,6 +1365,32 @@
     color: #A0A0A0;
     background: rgb(50,50,50);
     font-weight: 400;
+  }
+
+  .leader-thesis .item-card div {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 1em 0.5em;
+  }
+
+  .leader-thesis .item-card div span {
+    padding: 0;
+    margin: 0;
+  }
+
+  .leader-thesis .item-card div span.project-year {
+    width: 20%;
+  }
+
+  .leader-thesis .item-card div span.project-name {
+    width: 50%;
+  }
+
+  .leader-thesis .item-card div span.designers-name {
+    width: 30%;
   }
   
   .project-title,
@@ -1480,6 +1524,12 @@
     content: "Platform";
     background: black;
     color: white;
+  }
+
+  #search-results a.thesis-card .card-image::before {
+    content: "Thesis";
+    background: white;
+    color: black;
   }
   
   #search-results a.leader-card .card-image::before {
@@ -1782,7 +1832,7 @@
     }
   
     #gallery-menu.open {
-      height: 14em;
+      height: 18em;
     }
   
     #gallery-menu #mobile-gallery-btn {
@@ -1833,6 +1883,20 @@
       display: inline-block;
       opacity: 1.0;
       pointer-events: all;
+    }
+
+    .leader-thesis .item-card div span.project-year {
+      width: 20%;
+    }
+  
+    .leader-thesis .item-card div span.project-name {
+      width: 80%;
+    }
+  
+    .leader-thesis .item-card div span.designers-name {
+      width: 80%;
+      margin-left: 20%;
+      margin-top: 0.5em;
     }
   }
   

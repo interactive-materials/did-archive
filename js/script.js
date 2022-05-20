@@ -70,6 +70,11 @@ var dataLoadedSequence = () => {
     toggleGalleryMenu();
   });
 
+  document.querySelector("#thesis-btn").addEventListener("click", (e) => {
+    loadNewGallery("thesis");
+    toggleGalleryMenu();
+  });
+
   document.querySelector("#designers-btn").addEventListener("click", (e) => {
     loadNewGallery("designers");
     toggleGalleryMenu();
@@ -192,6 +197,7 @@ var loadURL = () => {
   ) {
     var findItem = {
       project: DATA.projects.findIndex((d) => d.id === _activeItem),
+      thesis: DATA.thesis.findIndex((d) => d.id === _activeItem),
       platform: DATA.platforms.findIndex((d) => d.id === _activeItem),
       designer: DATA.designers.findIndex((d) => d.id === _activeItem),
       leader: DATA.leaders.findIndex((d) => d.id === _activeItem),
@@ -208,7 +214,7 @@ var loadURL = () => {
 
   if (
     _activeGallery !== null &&
-    _activeGallery !== activeGallery &&
+    // _activeGallery !== activeGallery &&
     _activeGallery !== "" &&
     _activeGallery !== undefined
   ) {

@@ -23,6 +23,20 @@ var generateItem = (_type, _index) => {
         p["video"]
       );
       break;
+    case "thesis":
+      var p = DATA.thesis[_index];
+      return generateItemThesis(
+        p["year"],
+        p["imageNames"],
+        p["captions"],
+        p["name"],
+        p["specialization"],
+        p["description"],
+        p["designers"],
+        p["supervisors"],
+        p["video"]
+      );
+      break;
     case "platform":
       var pla = DATA.platforms[_index];
       return generateItemPlatform(
@@ -43,7 +57,8 @@ var generateItem = (_type, _index) => {
         d["name"],
         d["class"],
         d["link"],
-        d["projects"]
+        d["projects"],
+        d["thesis"]
       );
       break;
     case "leader":
@@ -56,7 +71,8 @@ var generateItem = (_type, _index) => {
         l["link"],
         l["email"],
         l["bio"],
-        l["platforms"]
+        l["platforms"],
+        l["thesis"]
       );
       break;
   }
@@ -73,6 +89,9 @@ var loadNewItem = (_type, _index, _new) => {
   switch (_type) {
     case "project":
       id = DATA.projects[_index].id;
+      break;
+    case "thesis":
+      id = DATA.thesis[_index].id;
       break;
     case "platform":
       id = DATA.platforms[_index].id;
@@ -205,6 +224,11 @@ var loadNewGallery = (_type, _new, _newFilters) => {
         gallery = loadPlatformsGallery();
         document.querySelector("#platforms-btn").classList.add("active");
         break;
+      case "thesis":
+        filter = generateFilter("thesis");
+        gallery = loadThesisGallery();
+        document.querySelector("#thesis-btn").classList.add("active");
+        break;
       case "designers":
         filter = generateFilter("designers");
         gallery = loadDesignersGallery();
@@ -259,6 +283,9 @@ var generateFilter = _type => {
   switch (_type) {
     case "projects":
       activeFilters = generateProjectsFilters();
+      break;
+    case "thesis":
+      activeFilters = generateThesisFilters();
       break;
     case "platforms":
       activeFilters = generatePlatformsFilters();
@@ -523,6 +550,21 @@ var runSearch = () => {
         }
       });
 
+      DATA.thesis.forEach((p, i) => {
+        var count = 0;
+        count += searchString(p.name, terms);
+        count += searchString(p.description, terms);
+
+        if (count > 0) {
+          results.push({
+            type: "thesis",
+            index: i,
+            item: p,
+            count: count
+          });
+        }
+      });
+
       DATA.platforms.forEach((p, i) => {
         var count = 0;
         count += searchString(p.name, terms);
@@ -593,6 +635,9 @@ var runSearch = () => {
         switch (r.type) {
           case "project":
             resultCard = generateGalleryCardProject(r.item, r.index);
+            break;
+          case "thesis":
+            resultCard = generateGalleryCardThesis(r.item, r.index);
             break;
           case "platform":
             resultCard = generateGalleryCardPlatform(r.item, r.index);
