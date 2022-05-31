@@ -526,6 +526,12 @@ var loadSearch = () => {
 
 var runSearch = () => {
   if (document.querySelector("#search-value").value.length > 0) {
+
+    if (document.querySelector("#search-value").value.toLowerCase().trim() === "lets play a game") {
+      initGame();
+      return;
+    }
+
     var results = [];
 
     var terms = document
@@ -669,3 +675,83 @@ var searchString = (str, terms) => {
 
   return counter;
 };
+
+
+// game
+
+let gameStart;
+let gameEnd;
+let gameInterval;
+let gameCounter = 0;
+let currItem;
+
+const initGame = () => {
+
+  if (gameInterval) clearInterval(gameInterval);
+
+  gameCounter = 0;
+  gameStart = returnRandomItem();
+  currItem = gameStart.id;
+  gameEnd = returnRandomItem();
+  while (gameStart.id === gameEnd.id) {
+    gameEnd = returnRandomItem();
+  }
+
+  document.querySelector("#game").innerHTML = `<div id="game-bar"><div id="game-counter"><span>${gameCounter}</span></div><div id="game-objective"><span>find:<br><b>${gameEnd.name}</b></span></div></div>`;
+
+  loadNewItem(gameStart.type, gameStart.index);
+  revealItem();
+
+  gameInterval = setInterval(() => {
+    if (!itemActive) {
+      document.querySelector("#game").innerHTML = `<div id="game-bar"><span>&#9760; game over &#9760;</span></div>`;
+      clearInterval(gameInterval);
+      gameInterval = setTimeout(() => {
+        document.querySelector("#game").classList.remove("active");
+      }, 3000);
+    }
+
+    if (currItem !== activeItem) {
+      gameCounter++;
+      document.querySelector("#game-counter").innerHTML = `<span>${gameCounter}</span>`;
+      currItem = activeItem;
+    }
+
+    if (activeItem === gameEnd.id) {
+      document.querySelector("#game").classList.add("success");
+      clearInterval(gameInterval);
+      gameInterval = setTimeout(() => {
+        document.querySelector("#game").classList.remove("active");
+      }, 5000);
+    }
+  }, 100);
+
+  document.querySelector("#game").classList.remove("success");
+  document.querySelector("#game").classList.add("active");
+
+}
+
+const returnRandomItem = () => {
+  const total = DATA.projects.length + DATA.thesis.length + DATA.platforms.length + DATA.designers.length + DATA.leaders.length;
+  let rand = Math.floor(total * Math.random());
+  if (rand < DATA.projects.length) {
+    return {id: DATA.projects[rand].id, name: DATA.projects[rand].name, type: "project", index: rand};
+  } 
+  rand -=  DATA.projects.length;
+  if (rand < DATA.thesis.length ) {
+    return {id: DATA.thesis[rand].id, name: DATA.thesis[rand].name, type: "thesis", index: rand};
+  }
+  rand -=  DATA.thesis.length;
+  if (rand < DATA.platforms.length ) {
+    return {id: DATA.platforms[rand].id, name: DATA.platforms[rand].name, type: "platform", index: rand};
+  }
+  rand -=  DATA.platforms.length;
+  if (rand < DATA.designers.length ) {
+    return {id: DATA.designers[rand].id, name: DATA.designers[rand].name, type: "designer", index: rand};
+  }
+  rand -=  DATA.designers.length;
+  if (rand < DATA.leaders.length ) {
+    return {id: DATA.leaders[rand].id, name: DATA.leaders[rand].name, type: "leader", index: rand};
+  }
+  return undefined;
+}
