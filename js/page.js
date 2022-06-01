@@ -698,10 +698,13 @@ const initGame = () => {
     gameEnd = returnRandomItem();
   }
 
-  document.querySelector("#game").innerHTML = `<div id="game-bar"><div id="game-counter"><span>${gameCounter}</span></div><div id="game-objective"><span>find:<br><b>${gameEnd.name}</b></span></div></div>`;
-
+  document.querySelector("#game").innerHTML = `<div id="game-bar"><div id="game-counter"><span>${gameCounter}</span></div><div id="game-objective"><span>find:<br><b>${gameEnd.name}</b></span></div></div><lottie-player id="game-animation" src="https://assets2.lottiefiles.com/packages/lf20_obhph3sh.json"  background="transparent"  speed="1"></lottie-player>`;
+  
   loadNewItem(gameStart.type, gameStart.index);
   revealItem();
+
+  const player = document.querySelector("#game-animation");
+  
 
   gameInterval = setInterval(() => {
     if (!itemActive) {
@@ -720,10 +723,11 @@ const initGame = () => {
 
     if (activeItem === gameEnd.id) {
       document.querySelector("#game").classList.add("success");
+      player.play();
       clearInterval(gameInterval);
       gameInterval = setTimeout(() => {
         document.querySelector("#game").classList.remove("active");
-      }, 5000);
+      }, 4000);
     }
   }, 100);
 

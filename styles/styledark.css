@@ -1761,6 +1761,7 @@
   #game.success #game-bar {
     animation: successgame 1s;
     animation-iteration-count: infinite;
+    border: 2px solid #EEEEEE
   }
   
   #game-bar #game-counter {
@@ -1790,6 +1791,13 @@
   #game-counter span {
     font-size: 3em;
   }
+
+  #game #game-animation {
+    margin-bottom: 6em;
+    width: min(90vw, 700px);
+    aspect-ratio: 1;
+    z-index: 1001;
+  }
   
   @keyframes passivegame {
     0%   {border: 2px solid #EEEEEE}
@@ -1798,13 +1806,19 @@
   }
   
   @keyframes successgame {
-    0%   {border: 4px solid hsla(0, 100%, 50%, 0.5)}
+    /* 0%   {border: 4px solid hsla(0, 100%, 50%, 0.5)}
     17%  {border: 4px solid hsla(60, 100%, 50%, 0.5)}
     34%  {border: 4px solid hsla(120, 100%, 50%, 0.5)}
     51%  {border: 4px solid hsla(180, 100%, 50%, 0.5)}
     68%  {border: 4px solid hsla(240, 100%, 50%, 0.5)}
     85%  {border: 4px solid hsla(300, 100%, 50%, 0.5)}
-    100% {border: 4px solid hsla(360, 100%, 50%, 0.5)}
+    100% {border: 4px solid hsla(360, 100%, 50%, 0.5)} */
+    0%   {color: #FFFFFF}
+    20%  {color: #FF0088}
+    40%  {color: #00AAFF}
+    60%  {color: #FF0088}
+    80%  {color: #00AAFF}
+    100% {color: #FFFFFF}
   }
   
   @media (max-width: 800px) {
