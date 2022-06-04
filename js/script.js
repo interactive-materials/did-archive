@@ -148,6 +148,10 @@ window.onload = () => {
     revealItem(true);
   });
 
+  document.querySelector(".gallery-holder").addEventListener("scroll", (e) => {
+    loadCardImages();
+  });
+
   dataLoadedSequence();
 };
 

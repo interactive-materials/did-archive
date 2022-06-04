@@ -335,7 +335,7 @@ var generateGalleryCardProject = (p, index) => {
 
   var img = document.createElement("div");
   img.classList.add("card-image");
-  img.style.backgroundImage = `url("assets/projects/${p.imageNames[0]}")`;
+  img.dataset.src = `assets/projects/${p.imageNames[0]}`;
 
   var plat = document.createElement("h3");
   plat.innerHTML = DATA.platforms[p.platform.index].name;
@@ -396,7 +396,7 @@ var generateGalleryCardThesis = (p, index) => {
 
   var img = document.createElement("div");
   img.classList.add("card-image");
-  img.style.backgroundImage = `url("assets/thesis/${p.imageNames[0]}")`;
+  img.dataset.src = `assets/thesis/${p.imageNames[0]}`;
   
   var name = document.createElement("h2");
   name.innerHTML = p.name;
@@ -460,9 +460,9 @@ var generateGalleryCardPlatform = (p, index) => {
   img.classList.add("card-image");
   
   if (p.thumbnail !== undefined) {
-    img.style.backgroundImage = `url("assets/platforms/${p.imageNames[0]}")`;
+    img.dataset.src = `assets/platforms/${p.imageNames[0]}`;
   } else {
-    img.style.backgroundImage = `url("assets/projects/${DATA.projects[p.projects[0].index].imageNames[0]}")`;
+    img.dataset.src = `assets/projects/${DATA.projects[p.projects[0].index].imageNames[0]}`;
   }
   
   var year = document.createElement("h3");
@@ -518,12 +518,14 @@ var generateGalleryCardDesigner = (p, index) => {
 
   var img = document.createElement("div");
   img.classList.add("card-image");
-  img.style.backgroundImage =
-    p.thumbnail === undefined ? `` : `url("assets/designers/${p.imageNames[0]}")`;
+  // img.style.backgroundImage =
+  //   p.thumbnail === undefined ? `` : `url("assets/designers/${p.imageNames[0]}")`;
 
   if (p.thumbnail === undefined) {
     img.style.background = `linear-gradient(${Math.floor(Math.random() * 4) *
       90}deg, rgba(190,190,190,1) 0%, rgba(255,242,217,1) 100%)`;
+  } else {
+    img.dataset.src = `assets/designers/${p.imageNames[0]}`;
   }
 
   var year = document.createElement("h3");
@@ -554,12 +556,14 @@ var generateGalleryCardLeader = (p, index) => {
 
   var img = document.createElement("div");
   img.classList.add("card-image");
-  img.style.backgroundImage =
-    p.thumbnail === undefined ? `` : `url("assets/leaders/${p.imageNames[0]}")`;
+  // img.style.backgroundImage =
+  //   p.thumbnail === undefined ? `` : `url("assets/leaders/${p.imageNames[0]}")`;
 
   if (p.thumbnail === undefined) {
     img.style.background = `linear-gradient(${Math.floor(Math.random() * 4) *
       90}deg, rgba(190,190,190,1) 0%, rgba(217,237,255,1) 100%)`;
+  } else {
+    img.dataset.src = `assets/leaders/${p.imageNames[0]}`;
   }
 
   var name = document.createElement("h2");

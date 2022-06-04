@@ -272,9 +272,25 @@ var loadNewGallery = (_type, _new, _newFilters) => {
     
     if (_newFilters === undefined) {
       activateFilters();
+      loadCardImages();
     }
   }
 };
+
+const loadCardImages = () => {
+  const cardArray = [...document.querySelectorAll("a.card:not(.viewed)")].filter(c => {
+    const rect = c.getBoundingClientRect();
+    if (rect.y > 0 && rect.y < window.innerHeight * 2) {
+      c.classList.add("viewed");
+      const img = c.querySelector(".card-image");
+      if (img) {
+        if (img.dataset.src) {
+          img.style.backgroundImage = `url(${img.dataset.src})`;
+        }
+      }
+    }
+  });
+}
 
 var generateFilter = _type => {
   var filterBar = document.createElement("div");
@@ -360,6 +376,7 @@ var applyFilters = filter => {
   }
 
   activateFilters();
+  loadCardImages();
 };
 
 var activateFilters = () => {
@@ -599,6 +616,7 @@ var runSearch = () => {
       DATA.designers.forEach((p, i) => {
         var count = 0;
         count += searchString(p.name, terms);
+        count += searchString(p.preferred, terms);
 
         if (count > 0) {
           results.push({
@@ -660,6 +678,8 @@ var runSearch = () => {
       });
     }
   }
+
+  loadCardImages();
 };
 
 var searchString = (str, terms) => {
