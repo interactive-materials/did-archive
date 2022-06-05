@@ -545,17 +545,14 @@ var loadSearch = () => {
 var runSearch = () => {
   if (document.querySelector("#search-value").value.length > 0) {
 
-    if (document.querySelector("#search-value").value.toLowerCase().trim() === "lets play a game") {
+    const valueString = document.querySelector("#search-value").value.toLowerCase().trim();
+    if (valueString === "lets play a game" || valueString === "let's play a game") {
       initGame();
       return;
     }
 
     var results = [];
-
-    var terms = document
-      .querySelector("#search-value")
-      .value.trim()
-      .split(" ");
+    var terms = valueString.split(" ");
 
     if (terms.length > 0) {
       DATA.projects.forEach((p, i) => {
